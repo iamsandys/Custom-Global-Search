@@ -49,7 +49,7 @@
                             <p>{!v.accountList.length} results</p>
                         </div>
                         <aura:if isTrue="{!not(empty(v.accountList))}">
-                            <div class="tableHieghtCls">
+                            <div style="height:250px;">
                                 <lightning:datatable aura:id="accountTable" class="accTable_class"
                                                      keyField="Id"
                                                      columns="{!v.accColumns}"
@@ -72,7 +72,7 @@
                             <p>{!v.contactList.length} results</p>
                         </div>
                         <aura:if isTrue="{!not(empty(v.contactList))}">
-                            <div class="tableHieghtCls">
+                            <div style="height:250px;">
                                 <lightning:datatable aura:id="contTable" class="contTable_class"
                                                      keyField="Id"
                                                      columns="{!v.contColumns}"
@@ -95,7 +95,7 @@
                             <p>{!v.leadList.length} results</p>
                         </div>
                         <aura:if isTrue="{!not(empty(v.leadList))}">
-                            <div class="tableHieghtCls">
+                            <div style="height:250px;">
                                 <lightning:datatable aura:id="leadTable" class="leadTable_class"
                                                      keyField="Id"
                                                      columns="{!v.leadColumns}"
@@ -117,7 +117,7 @@
                             <p>{!v.oppList.length} results</p>
                         </div>
                         <aura:if isTrue="{!not(empty(v.oppList))}">
-                            <div class="tableHieghtCls">
+                            <div style="height:250px;">
                                 <lightning:datatable aura:id="oppTable" class="oppTable_class"
                                                      keyField="Id"
                                                      columns="{!v.oppColumns}"
