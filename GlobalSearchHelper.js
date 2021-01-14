@@ -1,6 +1,6 @@
 ({
     
-	handleSearch_helper : function(cmp) {
+  handleSearch_helper : function(cmp) {
         cmp.set('v.searchText', cmp.find('searchKey').get('v.value'));
         var action = cmp.get('c.searchRecord_Ctrl');
         action.setParams({
@@ -16,5 +16,5 @@
             }
         });
         $A.enqueueAction(action);
-	}
+  }
 })
