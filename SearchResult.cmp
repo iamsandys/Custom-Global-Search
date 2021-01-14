@@ -1,3 +1,5 @@
+<!-- child components which holds search result passed from parent component. -->
+
 <aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global">
 	
     <aura:attribute name="accColumns" type="list"/>
