@@ -1,0 +1,29 @@
+<!--
+  GlobalSearch.cmp is 
+  Parent component which takes searchtext as input and get the desired results from apex and
+  send that to child component.
+  
+--!>
+
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global" 
+                controller="GloablSearchController">
+    
+    <aura:attribute name="accountList" type="list"/>
+    <aura:attribute name="contactList" type="list"/>
+    <aura:attribute name="leadList" type="list"/>
+    <aura:attribute name="oppList" type="list"/>
+    <aura:attribute name="dataList" type="list" default="[]"/>
+    
+    <aura:attribute name="searchText" type="string"/>
+    <aura:attribute name="showSearchResult" type="boolean" default="false"/>
+
+    <div  onkeyup="{! c.handleKeyUp }">
+        <lightning:input type="search" aura:id="searchKey" name="searchKey" varaint="label-hidden" 
+                         placeholder="Serach Record"/>
+    </div><br/>
+    
+    <aura:if isTrue="{!v.showSearchResult}">
+        <c:SearchResult searchResult="{!v.dataList}" schText="{!v.searchText}"/> 
+    </aura:if>
+    
+</aura:component>
