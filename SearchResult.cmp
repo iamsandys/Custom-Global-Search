@@ -1,0 +1,146 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global">
+	
+    <aura:attribute name="accColumns" type="list"/>
+    <aura:attribute name="accountList" type="list" default="[]"/>
+    <aura:attribute name="contColumns" type="list"/>
+    <aura:attribute name="contactList" type="list" default="[]"/>
+    <aura:attribute name="leadColumns" type="list"/>
+    <aura:attribute name="leadList" type="list" default="[]"/>
+    <aura:attribute name="oppColumns" type="list"/>
+    <aura:attribute name="oppList" type="list" default="[]"/>
+    
+    <aura:attribute name="searchResult" type="list" default="[]"/>
+    
+    <aura:attribute name="showAllResults" type="boolean" default="true"/>
+    <aura:attribute name="showAccounts" type="boolean" default="false"/>
+    <aura:attribute name="showContacts" type="boolean" default="false"/>
+    <aura:attribute name="showLeads" type="boolean" default="false"/>
+    <aura:attribute name="showOppos" type="boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="boolean" default="true"/>
+    
+    <aura:attribute name="schText" type="string"/>
+    <aura:attribute name="selectedNavItem" type="string" default="topResult"/>
+    <aura:attribute name="totalResults" type="string" />
+    
+    <aura:handler name="change" value="{!v.searchResult}" action="{!c.doInit}"/>
+    
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    
+    <lightning:card>
+        <lightning:layout >
+            <lightning:layoutItem size="3" padding="around-small">
+                <lightning:verticalNavigation selectedItem="{!v.selectedNavItem}" onselect="{!c.handleSelectOption}">
+                    <lightning:verticalNavigationSection label="Search Results">
+                        <lightning:verticalNavigationItemBadge label="Top Results" name="topResult" badgeCount="{!v.totalResults}"/>
+                        <lightning:verticalNavigationItemBadge label="Account" name="account" badgeCount="{!v.accountList.length}"/>
+                        <lightning:verticalNavigationItemBadge label="Contact" name="contact" badgeCount="{!v.contactList.length}"/>
+                        <lightning:verticalNavigationItemBadge label="Opportunity" name="opportunity" badgeCount="{!v.oppList.length}"/>
+                        <lightning:verticalNavigationItemBadge label="Lead" name="lead" badgeCount="{!v.leadList.length}" />
+                    </lightning:verticalNavigationSection>
+                </lightning:verticalNavigation>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem size="9" padding="around-small">
+                <aura:if isTrue="{!v.showAllResults}">
+                    <!-- Showing search term realted accounts -->
+                    <aura:if isTrue="{!v.showAccounts}">
+                        <div class="slds-page-header slds-page-header__title">
+                            <h3><b>Accounts</b></h3>
+                            <p>{!v.accountList.length} results</p>
+                        </div>
+                        <aura:if isTrue="{!not(empty(v.accountList))}">
+                            <div class="tableHieghtCls">
+                                <lightning:datatable aura:id="accountTable" class="accTable_class"
+                                                     keyField="Id"
+                                                     columns="{!v.accColumns}"
+                                                     data="{!v.accountList}"
+                                                     hideCheckboxColumn="true"
+                                                     onrowaction="{!c.handleRowAction}"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-box">
+                                    <p class="slds-text-align_center slds-text-heading_medium">No records found for "<b>{!v.schText}</b>".</p>
+                                </div>
+                            </aura:set>
+                        </aura:if><br/>
+                    </aura:if>
+                    
+                    <!-- Showing search term realted contacts -->
+                    <aura:if isTrue="{!v.showContacts}">
+                        <div class="slds-page-header slds-page-header__title">
+                            <h3><b>Contacts</b></h3>
+                            <p>{!v.contactList.length} results</p>
+                        </div>
+                        <aura:if isTrue="{!not(empty(v.contactList))}">
+                            <div class="tableHieghtCls">
+                                <lightning:datatable aura:id="contTable" class="contTable_class"
+                                                     keyField="Id"
+                                                     columns="{!v.contColumns}"
+                                                     data="{!v.contactList}"
+                                                     hideCheckboxColumn="true"
+                                                     onrowaction="{!c.handleRowAction}"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-box">
+                                    <p class="slds-text-align_center slds-text-heading_medium">No records found for "<b>{!v.schText}</b>".</p>
+                                </div>
+                            </aura:set>
+                        </aura:if><br/>
+                    </aura:if>
+                    
+                    <!-- showing search term related lead records -->
+                    <aura:if isTrue="{!v.showLeads}">
+                        <div class="slds-page-header slds-page-header__title">
+                            <h3><b>Leads</b></h3>
+                            <p>{!v.leadList.length} results</p>
+                        </div>
+                        <aura:if isTrue="{!not(empty(v.leadList))}">
+                            <div class="tableHieghtCls">
+                                <lightning:datatable aura:id="leadTable" class="leadTable_class"
+                                                     keyField="Id"
+                                                     columns="{!v.leadColumns}"
+                                                     data="{!v.leadList}"
+                                                     hideCheckboxColumn="true"
+                                                     onrowaction="{!c.handleRowAction}"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-box">
+                                    <p class="slds-text-align_center slds-text-heading_medium">No records found for "<b>{!v.schText}</b>".</p>
+                                </div>
+                            </aura:set>
+                        </aura:if><br/>
+                    </aura:if>
+                    <!-- showing search term related opportunities -->
+                    <aura:if isTrue="{!v.showOppos}">
+                        <div class="slds-page-header slds-page-header__title">
+                            <h3><b>Opportunities</b></h3>
+                            <p>{!v.oppList.length} results</p>
+                        </div>
+                        <aura:if isTrue="{!not(empty(v.oppList))}">
+                            <div class="tableHieghtCls">
+                                <lightning:datatable aura:id="oppTable" class="oppTable_class"
+                                                     keyField="Id"
+                                                     columns="{!v.oppColumns}"
+                                                     data="{!v.oppList}"
+                                                     hideCheckboxColumn="true"
+                                                     onrowaction="{!c.handleRowAction}"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-box">
+                                    <p class="slds-text-align_center slds-text-heading_medium">No records found for "<b>{!v.schText}</b>".</p>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </aura:if>
+                    
+                    <!--Showing Message if there is no data related to search text. -->
+                    <aura:set attribute="else">
+                        <div class="slds-box">
+                            <p class="slds-text-align_center slds-text-heading_medium">No records founds for "<b>{!v.schText}</b>".</p>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+</aura:component>
