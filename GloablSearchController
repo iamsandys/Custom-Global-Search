@@ -1,0 +1,11 @@
+/* Apex Class to perform SOSL */
+
+public class GloablSearchController {
+
+    @AuraEnabled(cacheable=true)
+    public static List<List<sObject>> searchRecord_Ctrl(string schKeyword){
+        string schQuery = 'Find \''+schKeyword+ '\' IN ALL FIELDs RETURNING Account(Name,AccountNumber,Rating,Industry), Contact(Name,Email,Title),Lead(Name,Status,Company),Opportunity(Name,StageName,Amount,CloseDate)';
+        List<List<sObject>> sObjectsList = search.query(schQuery);
+        return sObjectsList;
+    }
+}
